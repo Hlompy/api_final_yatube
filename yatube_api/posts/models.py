@@ -3,6 +3,7 @@ from django.db import models
 
 User = get_user_model()
 
+
 class Post(models.Model):
     text = models.TextField()
     pub_date = models.DateTimeField(
@@ -17,7 +18,7 @@ class Post(models.Model):
     group = models.ForeignKey(
         'Group',
         on_delete=models.CASCADE,
-        blank=True, 
+        blank=True,
         null=True,
         related_name="posts",
     )

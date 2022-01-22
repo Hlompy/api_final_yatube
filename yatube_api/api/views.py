@@ -4,13 +4,14 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, mixins
 from rest_framework import filters
 from rest_framework.exceptions import PermissionDenied
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.pagination import LimitOffsetPagination
 
-from posts.models import  Post, Follow, Group
+from posts.models import Post, Group
 
-from .serializers import CommentSerializer, FollowSerializer, PostSerializer, GroupSerializer
-
+from .serializers import CommentSerializer, FollowSerializer
+from .serializers import PostSerializer, GroupSerializer
 from .permissions import OwnerOrReadOnly
 
 
@@ -43,6 +44,7 @@ class GroupViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = GroupSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
+
 class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
@@ -63,6 +65,7 @@ class CommentViewSet(viewsets.ModelViewSet):
         if serializer.author != self.request.user:
             raise PermissionDenied('Изменение чужого контента запрещено!')
         super().perform_destroy(serializer)
+
 
 class FollowViewSet(mixins.CreateModelMixin,
                     mixins.ListModelMixin,
